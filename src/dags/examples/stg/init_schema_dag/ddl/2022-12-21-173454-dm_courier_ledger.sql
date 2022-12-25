@@ -1,0 +1,22 @@
+create table if not exists cdm.dm_courier_ledger (
+	id Serial not null primary key,
+	courier_id int4 not null,
+	courier_name varchar not null,
+	settlement_year int4 not null,
+	settlement_month int4 not null,
+	orders_count int4 not null,
+	orders_total_sum numeric(14, 2) not null,
+	rate_avg numeric(14, 2) not null,
+	order_processing_fee numeric(14, 2) not null,
+	courier_order_sum numeric(14, 2) not null,
+	courier_tips_sum numeric(14, 2) not null,
+	courier_reward_sum numeric(14, 2) not null,
+	CONSTRAINT orders_count_check CHECK ((orders_count >= 0)),
+	CONSTRAINT orders_total_sum_check CHECK ((orders_total_sum >= (0)::numeric)),
+	CONSTRAINT rate_avg CHECK ((rate_avg >= (0)::numeric)),
+	CONSTRAINT order_processing_fee_check CHECK ((order_processing_fee >= (0)::numeric)),
+	CONSTRAINT courier_order_sum CHECK ((courier_order_sum >= (0)::numeric)),
+	CONSTRAINT courier_tips_sum CHECK ((courier_tips_sum >= (0)::numeric)),
+	CONSTRAINT courier_reward_sum CHECK ((courier_reward_sum >= (0)::numeric)),
+	CONSTRAINT unique_fields_dm_courier_ledger UNIQUE (courier_id, settlement_year, settlement_month)
+);
